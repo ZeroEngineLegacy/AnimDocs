@@ -1,0 +1,94 @@
+[Version:1]
+GeometryContent 
+{
+	GeometryImport 
+	{
+		var OriginOffset = Real3{0, 0, 0}
+		var ScaleFactor = 1
+		var ChangeBasis = false
+		var XBasisTo = BasisType.PositiveX
+		var YBasisTo = BasisType.PositiveY
+		var ZBasisTo = BasisType.PositiveZ
+	}
+	MeshBuilder 
+	{
+		var GenerateSmoothNormals = false
+		var SmoothingAngleDegreesThreshold = 30
+		var GenerateTangentSpace = true
+		var InvertUvYAxis = false
+		var FlipWindingOrder = false
+		var FlipNormals = false
+		var Meshes = Array
+		{
+			Object
+			{
+				var Name = "BoxManPunchFloor_Stomach"
+				var ResourceId = 0x59af21f67b2647eb
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_Chest"
+				var ResourceId = 0x59af21f67b2647f7
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_Head"
+				var ResourceId = 0x59af21f67b264805
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_LArm"
+				var ResourceId = 0x59af21f67b26480a
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_LArm01"
+				var ResourceId = 0x59af21f67b26480e
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_RArm"
+				var ResourceId = 0x59af21f67b264813
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_RArm01"
+				var ResourceId = 0x59af21f67b264817
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_LLeg"
+				var ResourceId = 0x59af21f67b26481b
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_LLeg01"
+				var ResourceId = 0x59af21f67b26481e
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_RLeg"
+				var ResourceId = 0x59af21f67b264821
+			}
+			Object
+			{
+				var Name = "BoxManPunchFloor_RLeg01"
+				var ResourceId = 0x59af21f67b264826
+			}
+		}
+	}
+	AnimationBuilder 
+	{
+		var Clips = Array
+		{
+		}
+		var Animations = Array
+		{
+			Object
+			{
+				var Name = "BoxManPunchFloor"
+				var ResourceId = 0x59af21f67b26482c
+			}
+		}
+	}
+}

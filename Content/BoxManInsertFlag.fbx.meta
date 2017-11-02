@@ -1,0 +1,104 @@
+[Version:1]
+GeometryContent 
+{
+	GeometryImport 
+	{
+		var OriginOffset = Real3{0, 0, 0}
+		var ScaleFactor = 1
+		var ChangeBasis = false
+		var XBasisTo = BasisType.PositiveX
+		var YBasisTo = BasisType.PositiveY
+		var ZBasisTo = BasisType.PositiveZ
+	}
+	MeshBuilder 
+	{
+		var GenerateSmoothNormals = false
+		var SmoothingAngleDegreesThreshold = 30
+		var GenerateTangentSpace = true
+		var InvertUvYAxis = false
+		var FlipWindingOrder = false
+		var FlipNormals = false
+		var Meshes = Array
+		{
+			Object
+			{
+				var Name = "BoxManInsertFlag_stick"
+				var ResourceId = 0x59af21f17b4cbdd3
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_flag"
+				var ResourceId = 0x59af21f17b4cbddf
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_Stomach"
+				var ResourceId = 0x59af21f17b4cbde3
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_Chest"
+				var ResourceId = 0x59af21f17b4cbde8
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_Head"
+				var ResourceId = 0x59af21f17b4cbdec
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_LArm"
+				var ResourceId = 0x59af21f17b4cbdf0
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_LArm01"
+				var ResourceId = 0x59af21f17b4cbdf4
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_RArm"
+				var ResourceId = 0x59af21f17b4cbdf8
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_RArm01"
+				var ResourceId = 0x59af21f17b4cbdfc
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_LLeg"
+				var ResourceId = 0x59af21f17b4cbdff
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_LLeg01"
+				var ResourceId = 0x59af21f17b4cbe04
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_RLeg"
+				var ResourceId = 0x59af21f17b4cbe07
+			}
+			Object
+			{
+				var Name = "BoxManInsertFlag_RLeg01"
+				var ResourceId = 0x59af21f17b4cbe0b
+			}
+		}
+	}
+	AnimationBuilder 
+	{
+		var Clips = Array
+		{
+		}
+		var Animations = Array
+		{
+			Object
+			{
+				var Name = "BoxManInsertFlag"
+				var ResourceId = 0x59af21f17b4cbe10
+			}
+		}
+	}
+}
