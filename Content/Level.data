@@ -175,9 +175,9 @@ Level
 		var Name = "EditorCamera"
 		Transform 
 		{
-			var Translation = Real3{-2.20823193, 10.6188908, 10.9799109}
+			var Translation = Real3{18.2525501, 1.8655405, 8.49573421}
 			var Scale = Real3{1, 1, 1}
-			var Rotation = Quaternion{-0.195035726, 0.0231021903, 0.00459531462, 0.980513334}
+			var Rotation = Quaternion{-0.0952701643, 0.581601977, 0.0688368306, 0.804937422}
 		}
 		CameraViewport 
 		{
@@ -234,10 +234,10 @@ Level
 		{
 			var ControlMode = ControlMode.Orbit
 			var Previous3DMode = ControlMode.Orbit
-			var LookDistance = 11.0380096
-			var VerticalAngle = 0.392698079
-			var HorizontalAngle = -12.6134844
-			var LookTarget = Real3{-2.68851089, 6.39483738, 0.793430865}
+			var LookDistance = 2.63709903
+			var VerticalAngle = 0.235618368
+			var HorizontalAngle = -13.8177624
+			var LookTarget = Real3{15.8180065, 1.24992466, 7.69056034}
 			var MoveSensitivity = 1
 		}
 	}
@@ -280,85 +280,35 @@ Level
 			var Rotation = Quaternion{0, 0, 0, 1}
 			var Scale = Real3{1, 1, 1}
 		}
-		Hierarchy [ChildOrderOverride]
+		Hierarchy 
 		{
-			Cog [Id:0x59acd765386d7d05][ContextId:7]
+			Cog [Id:0x59aa694d60d67bb2][ContextId:7]
 			{
-			}
-			Cog [Id:0x59acd76039927b43][InheritId:"59af21e17ea19b3f:BoxMan"][ContextId:8]
-			{
-				BlendedAnimationController 
+				Hierarchy 
 				{
-					var IdleAnimation = "59af21f47aadcbed:BoxManIdleBreathing"
-					var RunAnimation = "59af21f67b3c2a33:BoxManRun"
-					var JumpStartAnimation = "59af21f17b5ec53f:BoxManJumpStart"
-					var JumpAirAnimation = "59af21f17b4b0d6d:BoxManJumpAir"
-					var JumpEndAnimation = "59af21f17b40e66e:BoxManJumpEnd"
-					var IdleBlendDur = 0.200000003
-					var RunBlendDur = 0.200000003
-					var PreJumpBlendDur = 0.100000001
-					var PreJumpDur = 0.100000001
-					var JumpStartBlendDur = 0.100000001
-					var JumpEndBlendDur = 0.300000012
-					var PostJumpBlendDur = 0.100000001
-				}
-				BlendedSimpleAnimationController [LocallyRemoved]
-				{
-				}
-				SimpleAnimation [LocallyRemoved]
-				{
+					Cog [Id:0x59aa6bb9f80f51ea][InheritId:"59af21e17ea19b3f:BoxMan"][ContextId:8]
+					{
+						Transform 
+						{
+							var Rotation = Quaternion{0, 0, 0, 1}
+						}
+					}
 				}
 			}
 		}
 	}
-	Cog [InheritId:"59af21e17ea19b3f:BoxMan"][ContextId:9]
+	Cog [InheritId:"59aa67e5c5123105:SimpleBoxMan"][ContextId:9]
 	{
 		Transform 
 		{
-			var Translation = Real3{-1.1221323, 0.881109238, -2.30296183}
-			var Rotation = Quaternion{0, 1, 0, -4.37113883e-08}
+			var Translation = Real3{-6.555233, 0.506566882, -5.46639204}
+			var Rotation = Quaternion{0, 0, 0, 1}
 			var Scale = Real3{1, 1, 1}
-		}
-		AnimationGraph 
-		{
-			var Active = true
-			var TimeScale = 0
 		}
 		SimpleAnimation 
 		{
-			var PlayMode = AnimationPlayMode.PlayOnce
-			var Animation = "59af21f17b40e66e:BoxManJumpEnd"
-		}
-		CharacterAnimationController [LocallyRemoved]
-		{
-		}
-		BlendedSimpleAnimationController [LocallyRemoved]
-		{
-		}
-	}
-	Cog [InheritId:"59af21e17ea19b3f:BoxMan"][ContextId:10]
-	{
-		Transform 
-		{
-			var Translation = Real3{-3.13452148, 0.881109238, -2.30296183}
-			var Rotation = Quaternion{0, 1, 0, -4.37113883e-08}
-			var Scale = Real3{1, 1, 1}
-		}
-		AnimationGraph 
-		{
-			var Active = true
-			var TimeScale = 1
-		}
-		SimpleAnimation 
-		{
-			var PlayMode = AnimationPlayMode.PlayOnce
-			var Animation = "59af21f17b4b0d6d:BoxManJumpAir"
-		}
-		CharacterAnimationController [LocallyRemoved]
-		{
-		}
-		BlendedSimpleAnimationController [LocallyRemoved]
-		{
+			var PlayMode = AnimationPlayMode.Loop
+			var Animation = "59af21f17b527236:BoxManMidAirDblJump"
 		}
 	}
 }

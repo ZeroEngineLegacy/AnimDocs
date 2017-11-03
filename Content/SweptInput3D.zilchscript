@@ -18,11 +18,27 @@ class SweptInput3D : ZilchComponent
   [Property] var JumpKey : Keys = Keys.Space;
   
   sends JumpEvent : JumpEvent;
+  sends DoubleJumpEvent : JumpEvent;
   sends MovementEvent : MovementEvent;
+  
+  var PreJump : Boolean = false;
+  
+  [Property]
+  var ModelObj : CogPath = CogPath();
   
   function Initialize(init : CogInitializer)
   {
     Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    Zero.Connect(this.ModelObj.Cog, Events.AnimationEnded, this.OnAnimationEnded);
+  }
+
+  function OnAnimationEnded(event : AnimationGraphEvent)
+  {
+    if(event.Animation == this.ModelObj.Cog.BlendedAnimationController.JumpStartAnimation)
+    {
+      this.PreJump = false;
+      this.SweptController.Jump();
+    }
   }
 
   function OnLogicUpdate(event : UpdateEvent)
@@ -38,12 +54,26 @@ class SweptInput3D : ZilchComponent
     else if(Zero.Keyboard.KeyIsDown(this.BackKey))
       movement -= this.Orientation.WorldForward;
     
+    if(this.PreJump)
+      movement = Real3();
+    
     this.SweptController.Update(movement, event.Dt);
     this.Owner.DispatchDown(Events.MovementEvent, MovementEvent(movement));
     
     if(Zero.Keyboard.KeyIsPressed(this.JumpKey))
     {
-      this.Owner.DispatchDown(Events.JumpEvent, JumpEvent());
+      if(this.SweptController.Grounded)
+      {
+        Console.WriteLine("Jump Input");
+        this.Owner.DispatchDown(Events.JumpEvent, JumpEvent());
+        this.PreJump = true;
+      }
+      else
+      {
+        Console.WriteLine("Double Jump Input");
+        this.Owner.DispatchDown(Events.DoubleJumpEvent, JumpEvent());
+        this.SweptController.JumpUnconditionally();
+      }
     }
   }
 }

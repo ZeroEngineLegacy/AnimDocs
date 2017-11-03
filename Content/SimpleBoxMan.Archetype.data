@@ -4,7 +4,7 @@ Cog
 	var Name = "BoxMan"
 	Transform 
 	{
-		var Translation = Real3{0, 0, 0}
+		var Translation = Real3{15.8183136, 0.5, 7.66556025}
 		var Scale = Real3{1, 1, 1}
 		var Rotation = Quaternion{0, 0, 0, 1}
 	}
@@ -16,25 +16,10 @@ Cog
 		var Animation = "4f8ebbde619389d0:DefaultAnimation"
 		var DebugPreviewId = 0
 	}
-	BlendedAnimationController 
+	SimpleAnimation 
 	{
-		var IdleAnimation = "59af21f47aadcbed:BoxManIdleBreathing"
-		var RunAnimation = "59af21f67b3c2a33:BoxManRun"
-		var JumpStartAnimation = "59af21f17b5ec53f:BoxManJumpStart"
-		var JumpAirAnimation = "59af21f17b4b0d6d:BoxManJumpAir"
-		var JumpEndAnimation = "59af21f17b40e66e:BoxManJumpEnd"
-		var DoubleJumpAnimation = "59af21f17b527236:BoxManMidAirDblJump"
-		var IdleBlendDur = 0.5
-		var RunBlendDur = 0.5
-		var PreJumpBlendDur = 0.5
-		var PreJumpDur = 0.300000012
-		var JumpStartBlendDur = 0.5
-		var JumpStartDur = 0.5
-		var JumpEndBlendDur = 1
-		var JumpEndDur = 0.300000012
-		var PostJumpBlendDur = 1
-		var DoubleJumpDur = 0.5
-		var DoubleJumpBlendDur = 0.100000001
+		var Animation = "4f8ebbde619389d0:DefaultAnimation"
+		var PlayMode = AnimationPlayMode.Loop
 	}
 	Hierarchy 
 	{

@@ -24,7 +24,7 @@ Cog
 		var SendsEvents = true
 		var Material = "4de020863e872da8:DefaultPhysicsMaterial"
 		var CollisionGroup = "4e740859314e5515:DefaultGroup"
-		var Offset = Real3{0, 0, 0}
+		var Offset = Real3{0, 1, 0}
 		var Radius = 0.4310413
 		var Height = 2
 		var Direction = AxisDirection.Y
@@ -65,6 +65,21 @@ Cog
 		var ForwardKey = Keys.W
 		var BackKey = Keys.S
 		var JumpKey = Keys.Space
+		var ModelObj = CogPath
+		{
+			var Path = "Transform/BoxMan"
+			var ErrorOnResolveToNull = false
+			var ErrorOnPathCantCompute = false
+			var ErrorOnDirectLinkFail = false
+			var UpdateCogOnPathChange = true
+			var UpdatePathOnCogChange = true
+			var UpdateCogOnInitialize = true
+			var ResolvedNullErrorOccurred = false
+			var Cog = 4294967293
+			var PathPreference0 = CogPathPreference.CogRelative
+			var PathPreference1 = CogPathPreference.SpaceRelative
+			var PathPreference2 = CogPathPreference.Absolute
+		}
 	}
 	Hierarchy 
 	{
@@ -144,13 +159,26 @@ Cog
 				var MouseSensitivity = 10
 			}
 		}
-		Cog [Id:0x59acd76039927b43][InheritId:"59af21e17ea19b3f:BoxMan"]
+		Cog [Id:0x59aa694d60d67bb2]
 		{
-			BlendedAnimationController [LocallyAdded]
+			var Name = "Transform"
+			Transform 
 			{
+				var Translation = Real3{0, 0, 0}
+				var Scale = Real3{1, 1, 1}
+				var Rotation = Quaternion{0, 1, 0, -4.37113883e-08}
 			}
-			CharacterAnimationController [LocallyRemoved]
+			Hierarchy 
 			{
+				Cog [Id:0x59aa6bb9f80f51ea][InheritId:"59af21e17ea19b3f:BoxMan"]
+				{
+					Transform 
+					{
+						var Translation = Real3{0, 0, 0}
+						var Rotation = Quaternion{0, 0, 0, 1}
+						var Scale = Real3{1, 1, 1}
+					}
+				}
 			}
 		}
 	}
