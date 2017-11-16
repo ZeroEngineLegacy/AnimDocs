@@ -3,7 +3,7 @@ ImageContent
 {
 	TextureBuilder 
 	{
-		var Name = "SpaceMarine_Head_Albedo"
+		var Name = "head"
 		var ResourceId = 0x59ae320e1215d1fb
 		var Type = TextureType.Texture2D
 		var Compression = TextureCompression.BC1

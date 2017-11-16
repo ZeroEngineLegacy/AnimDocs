@@ -175,9 +175,9 @@ Level
 		var Name = "EditorCamera"
 		Transform 
 		{
-			var Translation = Real3{18.2525501, 1.8655405, 8.49573421}
+			var Translation = Real3{-14.0463018, 11.5068064, 13.686985}
 			var Scale = Real3{1, 1, 1}
-			var Rotation = Quaternion{-0.0952701643, 0.581601977, 0.0688368306, 0.804937422}
+			var Rotation = Quaternion{-0.210190699, -0.402726531, -0.0955714583, 0.885718584}
 		}
 		CameraViewport 
 		{
@@ -234,10 +234,10 @@ Level
 		{
 			var ControlMode = ControlMode.Orbit
 			var Previous3DMode = ControlMode.Orbit
-			var LookDistance = 2.63709903
-			var VerticalAngle = 0.235618368
-			var HorizontalAngle = -13.8177624
-			var LookTarget = Real3{15.8180065, 1.24992466, 7.69056034}
+			var LookDistance = 19.1973133
+			var VerticalAngle = 0.466001719
+			var HorizontalAngle = -17.9960632
+			var LookTarget = Real3{-1.1221323, 2.88110924, 2.41311979}
 			var MoveSensitivity = 1
 		}
 	}
@@ -292,12 +292,21 @@ Level
 						{
 							var Rotation = Quaternion{0, 0, 0, 1}
 						}
+						BlendedAnimationController 
+						{
+							var WaveAnimation = "59af21f47ab80611:BoxManIdleHeadDribble"
+							var WaveRootObj = CogPath
+							{
+								var Path = "Stomach/Chest"
+								var Cog = 9
+							}
+						}
 					}
 				}
 			}
 		}
 	}
-	Cog [InheritId:"59aa67e5c5123105:SimpleBoxMan"][ContextId:9]
+	Cog [InheritId:"59aa67e5c5123105:SimpleBoxMan"][ContextId:10]
 	{
 		Transform 
 		{
@@ -308,7 +317,16 @@ Level
 		SimpleAnimation 
 		{
 			var PlayMode = AnimationPlayMode.Loop
-			var Animation = "59af21f17b527236:BoxManMidAirDblJump"
+			var Animation = "59af21f47ab80611:BoxManIdleHeadDribble"
+		}
+	}
+	Cog [InheritId:"59ae31d4f3c7dd1c:SpaceMarine_2013"][ContextId:11]
+	{
+		Transform 
+		{
+			var Translation = Real3{11.4946918, 0.5, 3.92578983}
+			var Rotation = Quaternion{0, 0, 0, 1}
+			var Scale = Real3{1, 1, 1}
 		}
 	}
 }

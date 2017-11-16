@@ -61,6 +61,12 @@ class BlendedAnimationController : ZilchComponent
   
   var DoubleJumpSeq : ActionSet;
   
+  [Property]
+  var WaveAnimation : Animation;
+  
+  [Property]
+  var WaveRootObj : CogPath = CogPath();
+  
   function Initialize(init : CogInitializer)
   {
     this.Root = this.Owner.Parent.Parent;
@@ -72,6 +78,29 @@ class BlendedAnimationController : ZilchComponent
     Zero.Connect(this.Owner, Events.DoubleJumpEvent, this.OnDoubleJumpEvent);
     Zero.Connect(this.Owner, Events.MovementEvent, this.OnMovementEvent);
     Zero.Connect(this.Owner, Events.AnimationEnded, this.OnAnimationEnded);
+    Zero.Connect(this.Owner, Events.WaveEvent, this.OnWaveEvent);
+  }
+
+  function OnWaveEvent(event : ZilchEvent)
+  {
+    var activeNode = this.AnimationGraph.ActiveNode;
+    var waveBasic = this.AnimationGraph.CreateBasicNode(this.WaveAnimation, AnimationPlayMode.PlayOnce);
+    
+    var selectiveWave = this.AnimationGraph.CreateSelectiveNode();
+    selectiveWave.To = waveBasic;
+    selectiveWave.From = this.AnimationGraph.ActiveNode;
+    selectiveWave.Root = this.WaveRootObj.Cog;
+    selectiveWave.Duration = waveBasic.Duration;
+    
+    var toWaveCross = this.AnimationGraph.CreateCrossBlendNode();
+    toWaveCross.From =  activeNode;
+    toWaveCross.To = selectiveWave;
+    
+    var waveFromCross = this.AnimationGraph.CreateCrossBlendNode();
+    waveFromCross.From = toWaveCross;
+    waveFromCross.To = this.AnimationGraph.ActiveNode;
+    
+    this.AnimationGraph.ActiveNode = toWaveCross;
   }
 
   function OnDoubleJumpEvent(event : JumpEvent)
@@ -111,11 +140,11 @@ class BlendedAnimationController : ZilchComponent
       this.CrossTo(this.JumpEndAnimation, AnimationPlayMode.PlayOnce, this.JumpEndBlendDur, this.JumpEndDur);
       this.AnimState = BoxManAnimState.JumpEnd;
     }
-    //else if(event.Animation == this.DoubleJumpAnimation)
-    //{
-    //  this.CrossTo(this.JumpEndAnimation, AnimationPlayMode.PlayOnce, this.JumpEndBlendDur, this.JumpEndDur);
-    //  this.AnimState = BoxManAnimState.JumpEnd;
-    //}
+    else if(event.Animation == this.DoubleJumpAnimation)
+    {
+      this.CrossTo(this.JumpEndAnimation, AnimationPlayMode.PlayOnce, this.JumpEndBlendDur, this.JumpEndDur);
+      this.AnimState = BoxManAnimState.JumpEnd;
+    }
   }
 
   function OnJumpEvent(event : JumpEvent)

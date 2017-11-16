@@ -17,6 +17,7 @@ class SweptInput3D : ZilchComponent
   [Property] var BackKey : Keys = Keys.S;
   [Property] var JumpKey : Keys = Keys.Space;
   
+  sends WaveEvent : ZilchEvent;
   sends JumpEvent : JumpEvent;
   sends DoubleJumpEvent : JumpEvent;
   sends MovementEvent : MovementEvent;
@@ -74,6 +75,10 @@ class SweptInput3D : ZilchComponent
         this.Owner.DispatchDown(Events.DoubleJumpEvent, JumpEvent());
         this.SweptController.JumpUnconditionally();
       }
+    }
+    else if(Zero.Keyboard.KeyIsPressed(Keys.P))
+    {
+      this.Owner.DispatchDown(Events.WaveEvent, ZilchEvent());
     }
   }
 }
