@@ -301,6 +301,9 @@ Level
 								var Cog = 9
 							}
 						}
+						AnimationDebugGraph [LocallyAdded]
+						{
+						}
 					}
 				}
 			}
