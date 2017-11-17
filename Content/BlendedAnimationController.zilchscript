@@ -1,4 +1,4 @@
-enum BoxManAnimState { Idle, Walk, Run, PreJump, JumpStart, JumpEnd, PostJump, DoubleJump }
+enum BoxManAnimState { Idle, Walk, Run, PreJump, JumpStart, JumpEnd, PostJump, DoubleJump, Wave }
 
 class BlendedAnimationController : ZilchComponent
 {
@@ -67,6 +67,7 @@ class BlendedAnimationController : ZilchComponent
   [Property]
   var WaveRootObj : CogPath = CogPath();
   
+  var MoveDir : Real3 = Real3();
   function Initialize(init : CogInitializer)
   {
     this.Root = this.Owner.Parent.Parent;
@@ -84,23 +85,27 @@ class BlendedAnimationController : ZilchComponent
   function OnWaveEvent(event : ZilchEvent)
   {
     var activeNode = this.AnimationGraph.ActiveNode;
+    
     var waveBasic = this.AnimationGraph.CreateBasicNode(this.WaveAnimation, AnimationPlayMode.PlayOnce);
-    
-    var selectiveWave = this.AnimationGraph.CreateSelectiveNode();
-    selectiveWave.To = waveBasic;
-    selectiveWave.From = this.AnimationGraph.ActiveNode;
-    selectiveWave.Root = this.WaveRootObj.Cog;
-    selectiveWave.Duration = waveBasic.Duration;
-    
     var toWaveCross = this.AnimationGraph.CreateCrossBlendNode();
     toWaveCross.From =  activeNode;
-    toWaveCross.To = selectiveWave;
     
-    var waveFromCross = this.AnimationGraph.CreateCrossBlendNode();
-    waveFromCross.From = toWaveCross;
-    waveFromCross.To = this.AnimationGraph.ActiveNode;
-    
+    if(this.AnimationGraph.IsPlayingInGraph(this.RunAnimation))
+    {
+      var selectiveWave = this.AnimationGraph.CreateSelectiveNode();
+      selectiveWave.To = waveBasic;
+      selectiveWave.From = this.AnimationGraph.ActiveNode;
+      selectiveWave.Root = this.WaveRootObj.Cog;
+      selectiveWave.Duration = waveBasic.Duration;
+      
+      toWaveCross.To = selectiveWave;
+    }
+    else
+    {
+      toWaveCross.To = waveBasic;
+    }
     this.AnimationGraph.ActiveNode = toWaveCross;
+    this.AnimState = BoxManAnimState.Wave;
   }
 
   function OnDoubleJumpEvent(event : JumpEvent)
@@ -123,6 +128,31 @@ class BlendedAnimationController : ZilchComponent
     this.AnimState = BoxManAnimState.JumpEnd;
   }
 
+  function OnJumpEvent(event : JumpEvent)
+  {
+    Console.WriteLine("Jump Begin:");
+    this.CrossTo(this.JumpStartAnimation, AnimationPlayMode.PlayOnce, this.PreJumpBlendDur, this.PreJumpDur);
+    this.AnimState = BoxManAnimState.PreJump;
+  }
+  
+  function OnMovementEvent(event : MovementEvent)
+  {
+    this.MoveDir = event.MoveDir;
+    if(!this.Root.SweptController.Grounded || this.AnimState == BoxManAnimState.Wave)
+      return;
+    
+    if(Math.Length(event.MoveDir) > 0.0 && this.AnimState != BoxManAnimState.Run && this.AnimState != BoxManAnimState.PreJump)
+    {
+      this.CrossTo(this.RunAnimation, AnimationPlayMode.Loop, this.RunBlendDur);
+      this.AnimState = BoxManAnimState.Run;
+    }
+    else if(Math.Length(event.MoveDir) == 0.0 && this.AnimState != BoxManAnimState.Idle && this.AnimState != BoxManAnimState.PreJump)
+    {
+      this.CrossTo(this.IdleAnimation, AnimationPlayMode.Loop, this.IdleBlendDur);
+      this.AnimState = BoxManAnimState.Idle;
+    }
+  }
+  
   function OnAnimationEnded(event : AnimationGraphEvent)
   {
     Console.WriteLine("AnimantionEnded Node: `event.Node` `this.Space.TimeSpace.RealTimePassed`");
@@ -145,26 +175,21 @@ class BlendedAnimationController : ZilchComponent
       this.CrossTo(this.JumpEndAnimation, AnimationPlayMode.PlayOnce, this.JumpEndBlendDur, this.JumpEndDur);
       this.AnimState = BoxManAnimState.JumpEnd;
     }
-  }
-
-  function OnJumpEvent(event : JumpEvent)
-  {
-    Console.WriteLine("Jump Begin:");
-    this.CrossTo(this.JumpStartAnimation, AnimationPlayMode.PlayOnce, this.PreJumpBlendDur, this.PreJumpDur);
-    this.AnimState = BoxManAnimState.PreJump;
-  }
-  
-  function OnMovementEvent(event : MovementEvent)
-  {
-    if(this.Root.SweptController.Grounded && Math.Length(event.MoveDir) > 0.0 && this.AnimState != BoxManAnimState.Run && this.AnimState != BoxManAnimState.PreJump)
+    else if(event.Animation == this.WaveAnimation)
     {
-      this.CrossTo(this.RunAnimation, AnimationPlayMode.Loop, this.RunBlendDur);
-      this.AnimState = BoxManAnimState.Run;
-    }
-    else if(this.Root.SweptController.Grounded && Math.Length(event.MoveDir) == 0.0 && this.AnimState != BoxManAnimState.Idle && this.AnimState != BoxManAnimState.PreJump)
-    {
-      this.CrossTo(this.IdleAnimation, AnimationPlayMode.Loop, this.IdleBlendDur);
-      this.AnimState = BoxManAnimState.Idle;
+      if(!this.Root.SweptController.Grounded)
+        return;
+      
+      if(Math.Length(this.MoveDir) > 0.0 && this.AnimState != BoxManAnimState.Run && this.AnimState != BoxManAnimState.PreJump)
+      {
+        this.CrossTo(this.RunAnimation, AnimationPlayMode.Loop, this.RunBlendDur);
+        this.AnimState = BoxManAnimState.Run;
+      }
+      else if(Math.Length(this.MoveDir) == 0.0 && this.AnimState != BoxManAnimState.Idle && this.AnimState != BoxManAnimState.PreJump)
+      {
+        this.CrossTo(this.IdleAnimation, AnimationPlayMode.Loop, this.IdleBlendDur);
+        this.AnimState = BoxManAnimState.Idle;
+      }
     }
   }
   

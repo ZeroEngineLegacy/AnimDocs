@@ -17,6 +17,7 @@ class SweptInput3D : ZilchComponent
   [Property] var BackKey : Keys = Keys.S;
   [Property] var JumpKey : Keys = Keys.Space;
   
+  sends IdleEvent : ZilchEvent;
   sends WaveEvent : ZilchEvent;
   sends JumpEvent : JumpEvent;
   sends DoubleJumpEvent : JumpEvent;
@@ -27,10 +28,56 @@ class SweptInput3D : ZilchComponent
   [Property]
   var ModelObj : CogPath = CogPath();
   
+  var MoveDir : Real3 = Real3();
+  
   function Initialize(init : CogInitializer)
   {
     Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     Zero.Connect(this.ModelObj.Cog, Events.AnimationEnded, this.OnAnimationEnded);
+    Zero.Connect(Zero.Keyboard, Events.KeyDown, this.OnKeyDown);
+    Zero.Connect(Zero.Keyboard, Events.KeyUp, this.OnKeyUp);
+  }
+
+  function OnKeyDown(event : KeyboardEvent)
+  {
+    if(event.Key == this.JumpKey)
+    {
+      if(this.SweptController.Grounded)
+      {
+        Console.WriteLine("Jump Input");
+        this.Owner.DispatchDown(Events.JumpEvent, JumpEvent());
+      }
+      else
+      {
+        Console.WriteLine("Double Jump Input");
+        this.Owner.DispatchDown(Events.DoubleJumpEvent, JumpEvent());
+        this.SweptController.JumpUnconditionally();
+      }
+    }
+    else if(event.Key == Keys.P)
+    {
+      this.Owner.DispatchDown(Events.WaveEvent, ZilchEvent());
+    }
+    else if(event.Key == this.LeftKey)
+     this.MoveDir += Real3(-1, 0, 0);
+    else if(event.Key == this.RightKey)
+     this.MoveDir += Real3(1, 0, 0);
+    else if(event.Key == this.BackKey)
+     this.MoveDir += Real3(0, 0, 1);
+    else if(event.Key == this.ForwardKey)
+     this.MoveDir += Real3(0, 0, -1);
+  }
+
+  function OnKeyUp(event : KeyboardEvent)
+  {
+    if(event.Key == this.LeftKey)
+     this.MoveDir -= Real3(-1, 0, 0);
+    else if(event.Key == this.RightKey)
+     this.MoveDir -= Real3(1, 0, 0);
+    else if(event.Key == this.BackKey)
+     this.MoveDir -= Real3(0, 0, 1);
+    else if(event.Key == this.ForwardKey)
+     this.MoveDir -= Real3(0, 0, -1);
   }
 
   function OnAnimationEnded(event : AnimationGraphEvent)
@@ -44,42 +91,18 @@ class SweptInput3D : ZilchComponent
 
   function OnLogicUpdate(event : UpdateEvent)
   {
-    // Accumulate movement
-    var movement = Real3(0, 0, 0);
-    if(Zero.Keyboard.KeyIsDown(this.LeftKey))
-      movement -= this.Orientation.WorldRight;
-    else if(Zero.Keyboard.KeyIsDown(this.RightKey))
-      movement += this.Orientation.WorldRight;
-    if(Zero.Keyboard.KeyIsDown(this.ForwardKey))
-      movement += this.Orientation.WorldForward;
-    else if(Zero.Keyboard.KeyIsDown(this.BackKey))
-      movement -= this.Orientation.WorldForward;
+    var movement = Real3();
+    if(Math.Length(this.MoveDir) > 0.0)
+    {
+      movement = this.Owner.Transform.TransformNormal(this.MoveDir);
     
-    if(this.PreJump)
-      movement = Real3();
+      this.Owner.DispatchDown(Events.MovementEvent, MovementEvent(movement));
+    }
+    else
+      this.Owner.DispatchDown(Events.IdleEvent, ZilchEvent());
+    
     
     this.SweptController.Update(movement, event.Dt);
-    this.Owner.DispatchDown(Events.MovementEvent, MovementEvent(movement));
-    
-    if(Zero.Keyboard.KeyIsPressed(this.JumpKey))
-    {
-      if(this.SweptController.Grounded)
-      {
-        Console.WriteLine("Jump Input");
-        this.Owner.DispatchDown(Events.JumpEvent, JumpEvent());
-        this.PreJump = true;
-      }
-      else
-      {
-        Console.WriteLine("Double Jump Input");
-        this.Owner.DispatchDown(Events.DoubleJumpEvent, JumpEvent());
-        this.SweptController.JumpUnconditionally();
-      }
-    }
-    else if(Zero.Keyboard.KeyIsPressed(Keys.P))
-    {
-      this.Owner.DispatchDown(Events.WaveEvent, ZilchEvent());
-    }
   }
 }
 
